@@ -55,43 +55,38 @@ void loop () {
   }
 
   static uint8_t startIndex = 0;
-  if (currpal == 1) {
-    FirstPalette();
-    startIndex = startIndex + 1; /* motion speed */
-    FillLEDsFromPaletteColors( startIndex);
-  }
+  switch (currpal) {
+    case 1 :
+      FirstPalette();
+      startIndex = startIndex + 1; /* motion speed */
+      FillLEDsFromPaletteColors( startIndex);
+      break;
 
-  if (currpal == 2) {
-    SecondPalette();
-    startIndex = startIndex + 1; /* motion speed */
-    FillLEDsFromPaletteColors( startIndex);
-  }
+    case 2 :
+      SecondPalette();
+      startIndex = startIndex + 1; /* motion speed */
+      FillLEDsFromPaletteColors( startIndex);
+      break;
 
-  if (currpal == 3) {
-    ThirdPalette();
-  }
+    case 3 :
+      ThirdPalette();
+      break;
 
-  if (currpal == 4) {
-    FourthPalette();
-    startIndex = startIndex + 1; /* motion speed */
-    FillLEDsFromPaletteColors( startIndex);
-  }
+    case 4 :
+      FourthPalette();
+      startIndex = startIndex + 1; /* motion speed */
+      FillLEDsFromPaletteColors( startIndex);
+      break;
 
-  if (currpal > maxPalette) {   // This way we cycle throught the palette we got
-    currpal = 1;
+    default :
+      currpal = 1;
+      break;
+
   }
   FastLED.show();
   FastLED.delay(120 / UPDATES_PER_SECOND);
 
-
-  /*                       COMMUNICATION
-
-
-
-
-
-                           COMMUNICATION
-  */
+  //COMMUNICATION
   if ( Serial.available()) {     // Check if any char available on serial, if there's any instructions
     char c = Serial.read();
     if (c == 's') {
