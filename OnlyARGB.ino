@@ -6,7 +6,7 @@ int maxPalette = 4;     // This is the number of registrered palette we got
 int argbSwitch = 5;     // This is the command of the relay
 
 #define LED_PIN     3       // This is the signal pin for the leds
-#define NUM_LEDS    60       // This is in fact 9(Headset support) + 37(Behind the screen) + 14(Inside the PC case)
+#define NUM_LEDS    51       // This is in fact 9(Headset support) + 37(Behind the screen) + 14(Inside the PC case)
 #define BRIGHTNESS  188        // Was first at 64 then 16
 #define LED_TYPE    WS2812
 #define COLOR_ORDER GRB
