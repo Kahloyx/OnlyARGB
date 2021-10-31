@@ -1,13 +1,13 @@
 #include <Wire.h>
 
 #include <FastLED.h>
-int currpal = 3;        // This one is the palette by default (the aestethicc one)
-int maxPalette = 4;     // This is the number of registrered palette we got
+int currpal = 4;        // This one is the palette by default (the aestethicc one)
+int maxPalette = 5;     // This is the number of registrered palette we got
 int argbSwitch = 5;     // This is the command of the relay
 
 #define LED_PIN     3       // This is the signal pin for the leds
-#define NUM_LEDS    51       // This is in fact 9(Headset support) + 37(Behind the screen) + 14(Inside the PC case)
-#define BRIGHTNESS  188        // Was first at 64 then 16
+#define NUM_LEDS    14       // This is in fact 9(Headset support) + 37(Behind the screen) + 14(Inside the PC case)
+#define BRIGHTNESS  64        // Was first at 64 then 16
 #define LED_TYPE    WS2812
 #define COLOR_ORDER GRB
 CRGB leds[NUM_LEDS];
@@ -21,7 +21,8 @@ TBlendType    currentBlending;
 void setup() {
   delay( 200 ); // power-up safety delay
   FastLED.addLeds<LED_TYPE, LED_PIN, COLOR_ORDER>(leds, NUM_LEDS).setCorrection( TypicalLEDStrip );
-  FastLED.setBrightness(  BRIGHTNESS );
+  FastLED.setBrightness(32);
+  FastLED.setMaxPowerInVoltsAndMilliamps(5, 500);  
   currentPalette = RainbowColors_p;
   currentBlending = LINEARBLEND;
   Serial.begin(115200);
@@ -34,6 +35,7 @@ void setup() {
   pinMode(argbSwitch, OUTPUT);
   int j = 0;
   while (j < 2) {               // Just an init as we love'em
+    digitalWrite(argbSwitch, HIGH);
     fill_solid( currentPalette, 16, CRGB::Grey);
     static uint8_t startIndex = 0;
     startIndex = startIndex + 1; /* motion speed */
@@ -78,6 +80,10 @@ void loop () {
       FillLEDsFromPaletteColors( startIndex);
       break;
 
+    case 5 :
+      FifthPalette();
+      break;
+
     default :
       currpal = 1;
       break;
@@ -93,12 +99,18 @@ void loop () {
       Serial.println(c);
       Serial.println("Switching.");
       currpal = currpal + 1;
+      if (currpal > maxPalette){
+        currpal = 1;
+      }
+      Serial.println(currpal);
     }
     if (c == 'n') {
       Serial.println("Switching on");
+      digitalWrite(argbSwitch, HIGH);
     }
     if (c == 'f') {
       Serial.println("Switching off");
+      digitalWrite(argbSwitch, LOW);
     }
   }
 }
