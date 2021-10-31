@@ -35,7 +35,7 @@ void SecondPalette()                 // What I got in This Function is a half an
 }
 void ThirdPalette()
 {
-  fill_solid(leds, 60, CRGB( 200, 0, 200));
+  fill_solid(leds, 14, CRGB( 200, 0, 200));
   FastLED.show();
 }
 
@@ -50,6 +50,12 @@ void FourthPalette()
   currentPalette[8] = c2;
   currentPalette[11] = c1;
   currentPalette[14] = c2;
+}
+
+void FifthPalette()
+{
+  fill_solid(leds, 14, CRGB::Grey);
+  FastLED.show();
 }
 
 void FillLEDsFromPaletteColors( uint8_t colorIndex)
